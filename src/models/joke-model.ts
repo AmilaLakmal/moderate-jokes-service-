@@ -1,6 +1,6 @@
 import mongoose, { Document, Schema } from "mongoose";
 
-interface IJoke extends Document {
+export interface IJoke extends Document {
   jokeText: string;
   type: string;
   moderated: boolean;

@@ -1,21 +1,11 @@
 import { jwtConfig } from "../config/jwt-config";
 import jwt from "jsonwebtoken";
-import User from "../models/user-model";
+import User, { IUser } from "../models/user-model";
 
-export const login = async (email: string, password: string) => {
-  const user = await User.findOne({ email });
-  if (!user) {
-    throw new Error("Invalid credentials");
+export namespace authService {
+  export async function findUserByEmail(email: string): Promise<any> {
+    const user = await User.findOne({ email });
+
+    return user;
   }
-
-  const isMatch = await user.matchPassword(password);
-  if (!isMatch) {
-    throw new Error("Invalid credentials");
-  }
-
-  const token = jwt.sign({ userId: user._id }, jwtConfig.secret, {
-    expiresIn: jwtConfig.expiresIn,
-  });
-
-  return token;
-};
+}

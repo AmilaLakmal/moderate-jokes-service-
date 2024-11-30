@@ -4,7 +4,8 @@ import jwt from "jsonwebtoken";
 export const authenticate = (req: any, res: any, next: any) => {
   const token = req.header("Authorization")?.replace("Bearer ", "");
   if (!token) {
-    return res.status(401).json({ success: false, error: "No token provided" });
+    res.status(401).json({ success: false, error: "No token provided" });
+    return;
   }
 
   try {
@@ -12,5 +13,6 @@ export const authenticate = (req: any, res: any, next: any) => {
     next();
   } catch (error) {
     res.status(401).json({ success: false, error: "Invalid or expired token" });
+    return;
   }
 };
